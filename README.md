@@ -66,6 +66,7 @@ V. Future works: https://github.com/lehuyduc/scheduler1
 + Limited number of instruction
 
 
+Note: we need to choose between scheduler0's method and scheduler1's method for the System architecture project
  
 
 
