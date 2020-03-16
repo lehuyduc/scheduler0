@@ -1,4 +1,7 @@
 #include <iostream>
+#include <unistd.h>
+#include <sys/types.h>
+#include <signal.h>
 #include <pthread.h>
 #include <queue>
 #include <deque>
@@ -13,7 +16,6 @@ FuncPointer myFunction;
 pthread_t hwThread, cpuTthread;
 vector<int> childs;
 
-void childReceiveStop()
 
 void schedule(int n, FuncPointer fp[]) {
     int i,j;
@@ -22,6 +24,7 @@ void schedule(int n, FuncPointer fp[]) {
         pid = fork();
         if (pid==0) {
             myFunction = fp[i];
+            msleep(10);
             return;
         }
         else {
@@ -40,9 +43,11 @@ void rr(vector<int> pids, int timeSlice) {
 
     while (!q.empty()) {
         id = q.front(); q.pop_front();
+        printf("%d\n",id);
         kill(id, SIGCONT);
         msleep(timeSlice);
         kill(id, SIGSTOP);
+        q.push_back(id);
     }
 }
 
